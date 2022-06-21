@@ -1,0 +1,321 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "https://raw.githubusercontent.com/LeChocolatChaud/Monotone/main/schemas/map.json",
+    "$comment": "Monotone map format",
+    "type": "object",
+    "properties": {
+        "chartinfo": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the chart"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "Author of the chart"
+                },
+                "artist": {
+                    "type": "string",
+                    "description": "Artist of the chart"
+                },
+                "songmaker": {
+                    "type": "string",
+                    "description": "Songmaker of the chart"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the chart"
+                },
+                "bpm": {
+                    "allOf": [
+                        {
+                            "type": "number",
+                            "description": "BPM of the chart"
+                        },
+                        {
+                            "$ref": "#/$defs/bpm"
+                        }
+                    ]
+                },
+                "keyscount": {
+                    "type": "number",
+                    "description": "Number of keys in the chart",
+                    "minimum": 1,
+                    "maximum": 20
+                },
+                "actualkeysound": {
+                    "type": "boolean",
+                    "description": "Whether the actual key sound (BMS like) should be enabled for the chart"
+                },
+                "bgm": {
+                    "allOf": [
+                        {
+                            "type": "string",
+                            "description": "BGM of the chart, in relative path (url is not supported)"
+                        },
+                        {
+                            "$ref": "#/$defs/relativepath"
+                        }
+                    ]
+                },
+                "bgmvolume": {
+                    "allOf": [
+                        {
+                            "type": "number",
+                            "description": "Volume of the BGM"
+                        },
+                        {
+                            "$ref": "#/$defs/volume"
+                        }
+                    ]
+                },
+                "keysoundvolume": {
+                    "allOf": [
+                        {
+                            "type": "number",
+                            "description": "Volume of the key sound"
+                        },
+                        {
+                            "$ref": "#/$defs/volume"
+                        }
+                    ]
+                },
+                "keysound": {
+                    "type": "array",
+                    "items": {
+                        "allOf": [
+                            {
+                                "type": "string",
+                                "description": "Key sound of the key track, in relative path (url is not supported)"
+                            },
+                            {
+                                "$ref": "#/$defs/relativepath"
+                            }
+                        ]
+                    },
+                    "description": "Key sound of the chart, every item stands for a key track"
+                },
+                "difficulty": {
+                    "type": "number",
+                    "description": "Difficulty of the chart"
+                },
+                "version": {
+                    "type": "number",
+                    "description": "Version of the chart, used for update check"
+                },
+                "level": {
+                    "type": "string",
+                    "description": "Level of the chart",
+                    "examples": [
+                        "novice",
+                        "beginner",
+                        "easy",
+                        "casual",
+                        "advanced",
+                        "normal",
+                        "hyper",
+                        "hard",
+                        "another",
+                        "expert",
+                        "master",
+                        "mega",
+                        "insane",
+                        "giga"
+                    ]
+                },
+                "speed": {
+                    "allOf": [
+                        {
+                            "type": "number",
+                            "description": "The speed the chart is flowed at"
+                        },
+                        {
+                            "$ref": "#/$defs/flowspeed"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "title",
+                "bpm",
+                "keyscount",
+                "bgm",
+                "difficulty",
+                "level"
+            ]
+        },
+        "chart": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "type": "number",
+                        "description": "Time of the note"
+                    },
+                    "key": {
+                        "type": "number",
+                        "description": "Key track of the note"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the note",
+                        "enum": ["tap", "hold", "modifier"]
+                    },
+                    "relative": {
+                        "type": "boolean",
+                        "description": "Whether the time is relative to last note",
+                        "default": true
+                    }
+                },
+                "required": ["time", "key", "type"],
+                "allOf": [
+                    {
+                        "if": {
+                            "properties": { "type": { "const": "hold" } }
+                        },
+                        "then": {
+                            "properties": {
+                                "duration": {
+                                    "type": "number",
+                                    "description": "Duration of the note (if the note is a hold note)",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": ["duration"]
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": { "type": { "const": "modifier" } }
+                        },
+                        "then": {
+                            "properties": {
+                                "functions": {
+                                    "type": "array",
+                                    "description": "The functions this modifier will use",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "A function, which must be a type of 'bpm', 'speed' or 'keysound'",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "description": "The type of this function",
+                                                "enum": [
+                                                    "bpm",
+                                                    "speed",
+                                                    "keysound"
+                                                ]
+                                            },
+                                            "value": {}
+                                        },
+                                        "required": ["type", "value"],
+                                        "allOf": [
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "type": {
+                                                            "const": "bpm"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "value": {
+                                                            "allOf": [
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": "The BPM after modifying"
+                                                                },
+                                                                {
+                                                                    "$ref": "#/$defs/bpm"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "type": {
+                                                            "const": "speed"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "value": {
+                                                            "allOf": [
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": "The flow speed after modifying"
+                                                                },
+                                                                {
+                                                                    "$ref": "#/$defs/flowspeed"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "type": {
+                                                            "const": "keysound"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "value": {
+                                                            "allOf": [
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "The key sound after modifying, in relative path (url is not supported)"
+                                                                },
+                                                                {
+                                                                    "$ref": "#/$defs/relativepath"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": { "type": { "const": "tap" } }
+                        },
+                        "then": {}
+                    }
+                ]
+            }
+        }
+    },
+    "required": ["chartinfo", "chart"],
+    "$defs": {
+        "bpm": {
+            "minimum": 1,
+            "maximum": 999
+        },
+        "volume": {
+            "minimum": 0,
+            "maximum": 1
+        },
+        "relativepath": {
+            "format": "uri-reference"
+        },
+        "flowspeed": {
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}
