@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "$id": "https://raw.githubusercontent.com/LeChocolatChaud/Monotone/main/schemas/map.json",
+    "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/monotone/map.json",
     "$comment": "Monotone map format",
     "type": "object",
     "properties": {
