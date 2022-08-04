@@ -89,7 +89,7 @@
                                             "value": {
                                                 "type": "object",
                                                 "properties": {
-                                                    "value": {
+                                                    "text": {
                                                         "type": "string"
                                                     }
                                                 }
