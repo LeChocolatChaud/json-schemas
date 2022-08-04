@@ -1,0 +1,190 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/man-help-pages/page.json",
+    "$comment": "A Minecraft raw json text schema for in-game manual help pages",
+    "type": "object",
+    "patternProperties": {
+        "^.*$": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "color": {
+                            "enum": [
+                                "black",
+                                "dark_blue",
+                                "dark_green",
+                                "dark_aqua",
+                                "dark_red",
+                                "dark_purple",
+                                "gold",
+                                "gray",
+                                "dark_gray",
+                                "blue",
+                                "green",
+                                "aqua",
+                                "red",
+                                "light_purple",
+                                "yellow",
+                                "white"
+                            ]
+                        },
+                        "bold": {
+                            "type": "boolean"
+                        },
+                        "italic": {
+                            "type": "boolean"
+                        },
+                        "underlined": {
+                            "type": "boolean"
+                        },
+                        "strikethrough": {
+                            "type": "boolean"
+                        },
+                        "obfuscated": {
+                            "type": "boolean"
+                        },
+                        "clickEvent": {
+                            "type": "object",
+                            "properties": {
+                                "action": {
+                                    "enum": [
+                                        "open_url",
+                                        "open_file",
+                                        "run_command",
+                                        "suggest_command",
+                                        "copy_to_clipboard"
+                                    ]
+                                },
+                                "value": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["action", "value"]
+                        },
+                        "hoverEvent": {
+                            "type": "object",
+                            "properties": {
+                                "action": {
+                                    "enum": [
+                                        "show_text",
+                                        "show_item",
+                                        "show_entity"
+                                    ]
+                                }
+                            },
+                            "allOf": [
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "action": {
+                                                "const": "show_text"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "properties": {
+                                            "value": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": ["value"]
+                                    }
+                                },
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "action": {
+                                                "const": "show_item"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "properties": {
+                                            "value": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "count": {
+                                                        "type": "integer"
+                                                    },
+                                                    "nbt": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": ["id"]
+                                            }
+                                        },
+                                        "required": ["value"]
+                                    }
+                                },
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "action": {
+                                                "const": "show_entity"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "properties": {
+                                            "value": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                                                    },
+                                                    "type": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": ["id", "type"]
+                                            }
+                                        },
+                                        "required": ["value"]
+                                    }
+                                }
+                            ],
+                            "required": ["action"]
+                        }
+                    },
+                    "anyOf": [
+                        {
+                            "properties": {
+                                "text": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["text"]
+                        },
+                        {
+                            "properties": {
+                                "keybind": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["keybind"]
+                        },
+                        {
+                            "properties": {
+                                "translate": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["translate"]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}
