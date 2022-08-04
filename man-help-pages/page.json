@@ -87,7 +87,12 @@
                                     "then": {
                                         "properties": {
                                             "value": {
-                                                "type": "string"
+                                                "type": "object",
+                                                "properties": {
+                                                    "value": {
+                                                        "type": "string"
+                                                    }
+                                                }
                                             }
                                         },
                                         "required": ["value"]
