@@ -7,17 +7,25 @@
         "vertical": {
             "type": "array",
             "description": "Vertical hints, must have the same length as horizontal hints",
-            "items": {
-                "type": "integer",
-                "description": "Vertical hint"
+            "items" : {
+                "type": "array",
+                "description": "Represents a column in the grid",
+                "items": {
+                    "type": "integer",
+                    "description": "A vertical hint"
+                }
             }
         },
         "horizontal": {
             "type": "array",
             "description": "Horizontal hints, must have the same length as vertical hints",
-            "items": {
-                "type": "integer",
-                "description": "Horizontal hint"
+            "items" : {
+                "type": "array",
+                "description": "Represents a row in the grid",
+                "items": {
+                    "type": "integer",
+                    "description": "A Horizontal hint"
+                }
             }
         }
     },
