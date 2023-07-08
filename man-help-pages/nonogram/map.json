@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/nonogram/map.json",
+    "$comment": "Nonogram map format",
+    "type": "object",
+    "properties": {
+        "vertical": {
+            "type": "array",
+            "description": "Vertical hints, must have the same length as horizontal hints",
+            "items": {
+                "type": "integer",
+                "description": "Vertical hint"
+            }
+        },
+        "horizontal": {
+            "type": "array",
+            "description": "Horizontal hints, must have the same length as vertical hints",
+            "items": {
+                "type": "integer",
+                "description": "Horizontal hint"
+            }
+        }
+    },
+    "required": [ "vertical", "horizontal" ]
+}
