@@ -1,419 +1,427 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$comment": "A schema for TrMenu menus.",
-    "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/menu.json",
-    "type": "object",
-    "properties": {
-        "Title": {
-            "oneOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            ],
-            "description": "The title of the menu. Supports dynamic switching titles, color configurations and placeholders."
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "A schema for TrMenu menus.",
+  "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/menu.json",
+  "type": "object",
+  "properties": {
+    "Title": {
+      "oneOf": [
+        {
+          "type": "string"
         },
-        "Title-Update": {
-            "type": "integer",
-            "description": "The time in ticks to wait between dynamic titles. Default to -1 (no switching).",
-            "default": -1
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "The title of the menu. Supports dynamic switching titles, color configurations and placeholders."
+    },
+    "Title-Update": {
+      "type": "integer",
+      "description": "The time in ticks to wait between dynamic titles. Default to -1 (no switching).",
+      "default": -1
+    },
+    "Layout": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A row of menu items."
+          }
         },
-        "Layout": {
-            "oneOf": [
-                {
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "description": "A row of menu items."
-                    }
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "description": "A row of menu items."
-                        },
-                        "description": "A menu page."
-                    }
-                }
-            ],
-            "description": "The layout of the menu. Supports multi-character icon keys and multi-page. The actual GUI size will be adapted to the configuration."
-        },
-        "PlayerInventory": {
+        {
+          "type": "array",
+          "items": {
             "type": "array",
             "items": {
-                "type": "string",
-                "description": "A row of player inventory slots."
+              "type": "string",
+              "description": "A row of menu items."
             },
-            "description": "The layout for player inventory slots.",
-            "minItems": 4,
-            "maxItems": 4
-        },
-        "Options": {
-            "type": "object",
-            "properties": {
-                "Arguments": {
-                    "type": "boolean",
-                    "description": "Whether to allow passing arguments when opening the menu (default to true).",
-                    "default": true
-                },
-                "Default-Arguments": {
-                    "type": "array",
-                    "description": "The default arguments to pass if user didn't passed it."
-                },
-                "Default-Layout": {
-                    "type": "integer",
-                    "description": "The default layout index to use. Starts at 0.",
-                    "default": 0
-                },
-                "Free-Slots": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "The free slots that players can freely modify while the menu is open. (currently broken)"
-                },
-                "Hide-Player-Inventory": {
-                    "type": "boolean",
-                    "description": "Whether to hide the player's inventory while the menu is open."
-                },
-                "Min-Click-Delay": {
-                    "type": "integer",
-                    "description": "The minimum delay between two consecutive clicks, in ticks."
-                },
-                "Depend-Expansions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "A collection of PAPI expansions the menu depend on. Expansions will be downloaded if not present."
-                }
-            }
-        },
-        "Bindings": {
-            "type": "object",
-            "description": "The bindings for the menu, i.e. how to open it.",
-            "properties": {
-                "Commands": {
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "description": "A command to open the menu. Supports regular expressions."
-                    },
-                    "description": "A collection of commands to open the menu. Supports regular expressions."
-                },
-                "Items": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "A collection of items to open the menu."
-                }
-            }
-        },
-        "Events": {
-            "type": "object",
-            "description": "The event handler scripts.",
-            "properties": {
-                "Open": {
-                    "$ref": "#/definitions/action",
-                    "description": "A script to run when the menu is opened."
-                },
-                "Close": {
-                    "$ref": "#/definitions/action",
-                    "description": "A script to run when the menu is closed."
-                }
-            }
-        },
-        "Functions": {
-            "type": "object",
-            "description": "The js functions declared in the menu.",
-            "patternProperties": {
-                "^.*$": {
-                    "type": "string",
-                    "description": "A js function."
-                }
-            }
-        },
-        "Tasks": {
-            "type": "object",
-            "description": "The tasks to run repeatedly.",
-            "patternProperties": {
-                "^.*$": {
-                    "type": "object",
-                    "description": "A task.",
-                    "properties": {
-                        "period": {
-                            "type": "integer",
-                            "description": "Repeating period in ticks."
-                        },
-                        "task": {
-                            "$ref": "#/definitions/action",
-                            "description": "A script to run."
-                        }
-                    }
-                }
-            }
-        },
-        "Icons": {
-            "type": "object",
-            "description": "The icons to display in the menu.",
-            "patternProperties": {
-                "^.*$": {
-                    "type": "object",
-                    "description": "An icon.",
-                    "properties": {
-                        "update": {
-                            "oneOf": [
-                                {
-                                    "type": "integer",
-                                    "description": "The update period in ticks."
-                                },
-                                {
-                                    "type": "array",
-                                    "description": "The update period in ticks. Arranged in the order of material, name, lore, slot. Missing values will be filled with provided max value.",
-                                    "items": {
-                                        "type": "integer"
-                                    }
-                                }
-                            ]
-                        },
-                        "refresh": {
-                            "type": "integer",
-                            "description": "The refresh period in ticks."
-                        },
-                        "slots": {
-                            "oneOf": [
-                                {
-                                    "type": "integer",
-                                    "description": "The slot for the icon."
-                                },
-                                {
-                                    "type": "array",
-                                    "description": "The slots for the icon to appear repeatedly.",
-                                    "items": {
-                                        "anyOf": [
-                                            {
-                                                "type": "integer"
-                                            },
-                                            {
-                                                "type": "string",
-                                                "pattern": "[0-9]+-[0-9]+"
-                                            },
-                                            {
-                                                "$ref": "#/definitions/js-reference"
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "type": "array",
-                                    "description": "The slots for the icon to appear dynamicly.",
-                                    "items": {
-                                        "type": "array",
-                                        "description": "A frame of the slots.",
-                                        "items": {
-                                            "type": "integer"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        "inherit": {
-                            "type": "boolean",
-                            "description": "If the icon should inherit the layout of the parent."
-                        },
-                        "condition": {
-                            "type": "string",
-                            "description": "The condition for the icon to appear."
-                        },
-                        "priority": {
-                            "type": "integer",
-                            "description": "The priority for the icon to appear. Only affect sub icons. Default to 0. The smaller the number, the higher the priority."
-                        },
-                        "display": {
-                            "type": "object",
-                            "description": "The display properties of the icon.",
-                            "properties": {
-                                "material": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/material.json"
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/material.json"
-                                            }
-                                        }
-                                    ],
-                                    "description": "The material of the icon. Supports dynamic icon."
-                                },
-                                "name": {
-                                    "oneOf": [
-                                        {
-                                            "type": "string"
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    ],
-                                    "description": "The name of the icon. Supports dynamic icon."
-                                },
-                                "lore": {
-                                    "oneOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    ],
-                                    "description": "The lore of the icon. Supports dynamic icon."
-                                },
-                                "nbt": {
-                                    "type": "object",
-                                    "description": "The NBT data of the icon."
-                                },
-                                "flags": {
-                                    "type": "array",
-                                    "description": "The flags of the icon.",
-                                    "items": {
-                                        "type": "string",
-                                        "enum": [
-                                            "HIDE_ENCHANTS",
-                                            "HIDE_ATTRIBUTES",
-                                            "HIDE_UNBREAKABLE",
-                                            "HIDE_POTION_EFFECTS",
-                                            "HIDE_DESTROYS",
-                                            "HIDE_PLACED_ON"
-                                        ]
-                                    }
-                                },
-                                "amount": {
-                                    "type": "integer",
-                                    "description": "The amount of the icon."
-                                },
-                                "shiny": {
-                                    "oneOf": [
-                                        {
-                                            "type": "string"
-                                        },
-                                        {
-                                            "type": "boolean"
-                                        }
-                                    ],
-                                    "description": "If the icon is shiny."
-                                }
-                            }
-                        },
-                        "actions": {
-                            "type": "object",
-                            "description": "The actions that the icon will trigger.",
-                            "patternProperties": {
-                                "^(all|left|right|shift_left|shift_right|offhand|number_key|number_key_1|number_key_2|number_key_3|number_key_4|number_key_5|number_key_6|number_key_7|number_key_8|number_key_9|middle|drop|control_drop|abroad_left_empty|abroad_right_empty|abroad_left_item|abroad_right_item|left_mouse_drag_add|right_mouse_drag_add|middle_mouse_drag_add|double_click)$": {
-                                    "$ref": "#/definitions/action"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            "description": "A menu page."
+          }
         }
+      ],
+      "description": "The layout of the menu. Supports multi-character icon keys and multi-page. The actual GUI size will be adapted to the configuration."
     },
-    "required": [
-        "Layout", "Icons"
-    ],
-    "definitions": {
-        "action": {
-            "oneOf": [
-                {
-                    "$ref": "#/definitions/single-action"
-                },
-                {
-                    "$ref": "#/definitions/conditioned-action"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/action"
-                    }
-                }
-            ]
+    "PlayerInventory": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "A row of player inventory slots."
+      },
+      "description": "The layout for player inventory slots.",
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "Options": {
+      "type": "object",
+      "properties": {
+        "Arguments": {
+          "type": "boolean",
+          "description": "Whether to allow passing arguments when opening the menu (default to true).",
+          "default": true
         },
-        "string-action": {
-            "type": "string",
-            "pattern": "^(test|chat|sound|title|actionbar|json|command|op|console|server|close|force-close|open|force-open|page|set-title|set-arguments|refresh|update|reset|set-meta|del-meta|take-item|give-item|give-money|take-money|set-money|delay|return|js|ke)?:.*$"
+        "Default-Arguments": {
+          "type": "array",
+          "description": "The default arguments to pass if user didn't passed it."
         },
-        "catcher": {
-            "type": "object",
-            "patternProperties": {
-                "^.*$": {
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "type": "string",
-                            "enum": ["CHAT", "SIGN", "ANVIL", "BOOK"]
-                        },
-                        "start": {
-                            "$ref": "#/definitions/action"
-                        },
-                        "cancel": {
-                            "$ref": "#/definitions/action"
-                        },
-                        "end": {
-                            "$ref": "#/definitions/action"
-                        }
-                    }
-                }
-            }
+        "Default-Layout": {
+          "type": "integer",
+          "description": "The default layout index to use. Starts at 0.",
+          "default": 0
         },
-        "single-action": {
-            "oneOf": [
-                {
-                    "$ref": "#/definitions/string-action"
-                },
-                {
-                    "$ref": "#/definitions/catcher"
-                }
-            ]
+        "Free-Slots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The free slots that players can freely modify while the menu is open. (currently broken)"
         },
-        "conditioned-action": {
-            "type": "object",
-            "properties": {
-                "condition": {
-                    "$ref": "#/definitions/string-action"
-                },
-                "actions": {
-                    "$ref": "#/definitions/action"
-                },
-                "deny": {
-                    "$ref": "#/definitions/action"
-                }
-            }
+        "Hide-Player-Inventory": {
+          "type": "boolean",
+          "description": "Whether to hide the player's inventory while the menu is open."
         },
-        "js-reference": {
-            "type": "string",
-            "pattern": "^\\$.*$|^\\${.*}$"
+        "Min-Click-Delay": {
+          "type": "integer",
+          "description": "The minimum delay between two consecutive clicks, in ticks."
+        },
+        "Depend-Expansions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A collection of PAPI expansions the menu depend on. Expansions will be downloaded if not present."
         }
+      }
+    },
+    "Bindings": {
+      "type": "object",
+      "description": "The bindings for the menu, i.e. how to open it.",
+      "properties": {
+        "Commands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A command to open the menu. Supports regular expressions."
+          },
+          "description": "A collection of commands to open the menu. Supports regular expressions."
+        },
+        "Items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A collection of items to open the menu."
+        }
+      }
+    },
+    "Events": {
+      "type": "object",
+      "description": "The event handler scripts.",
+      "properties": {
+        "Open": {
+          "$ref": "#/definitions/action",
+          "description": "A script to run when the menu is opened."
+        },
+        "Close": {
+          "$ref": "#/definitions/action",
+          "description": "A script to run when the menu is closed."
+        }
+      }
+    },
+    "Functions": {
+      "type": "object",
+      "description": "The js functions declared in the menu.",
+      "patternProperties": {
+        "^.*$": {
+          "type": "string",
+          "description": "A js function."
+        }
+      }
+    },
+    "Tasks": {
+      "type": "object",
+      "description": "The tasks to run repeatedly.",
+      "patternProperties": {
+        "^.*$": {
+          "type": "object",
+          "description": "A task.",
+          "properties": {
+            "period": {
+              "type": "integer",
+              "description": "Repeating period in ticks."
+            },
+            "task": {
+              "$ref": "#/definitions/action",
+              "description": "A script to run."
+            }
+          }
+        }
+      }
+    },
+    "Icons": {
+      "type": "object",
+      "description": "The icons to display in the menu.",
+      "patternProperties": {
+        "^.*$": {
+          "type": "object",
+          "description": "An icon.",
+          "properties": {
+            "update": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "description": "The update period in ticks."
+                },
+                {
+                  "type": "array",
+                  "description": "The update period in ticks. Arranged in the order of material, name, lore, slot. Missing values will be filled with provided max value.",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              ]
+            },
+            "refresh": {
+              "type": "integer",
+              "description": "The refresh period in ticks."
+            },
+            "slots": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "description": "The slot for the icon."
+                },
+                {
+                  "type": "array",
+                  "description": "The slots for the icon to appear repeatedly.",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "[0-9]+-[0-9]+"
+                      },
+                      {
+                        "$ref": "#/definitions/js-reference"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "array",
+                  "description": "The slots for the icon to appear dynamicly.",
+                  "items": {
+                    "type": "array",
+                    "description": "A frame of the slots.",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              ]
+            },
+            "inherit": {
+              "type": "boolean",
+              "description": "If the icon should inherit the layout of the parent."
+            },
+            "condition": {
+              "type": "string",
+              "description": "The condition for the icon to appear."
+            },
+            "priority": {
+              "type": "integer",
+              "description": "The priority for the icon to appear. Only affect sub icons. Default to 0. The smaller the number, the higher the priority."
+            },
+            "display": {
+              "type": "object",
+              "description": "The display properties of the icon.",
+              "properties": {
+                "material": {
+                  "oneOf": [
+                    {
+                      "$ref": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/material.json"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/material.json"
+                      }
+                    }
+                  ],
+                  "description": "The material of the icon. Supports dynamic icon."
+                },
+                "name": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ],
+                  "description": "The name of the icon. Supports dynamic icon."
+                },
+                "lore": {
+                  "oneOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ],
+                  "description": "The lore of the icon. Supports dynamic icon."
+                },
+                "nbt": {
+                  "type": "object",
+                  "description": "The NBT data of the icon."
+                },
+                "flags": {
+                  "type": "array",
+                  "description": "The flags of the icon.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "HIDE_ENCHANTS",
+                      "HIDE_ATTRIBUTES",
+                      "HIDE_UNBREAKABLE",
+                      "HIDE_POTION_EFFECTS",
+                      "HIDE_DESTROYS",
+                      "HIDE_PLACED_ON"
+                    ]
+                  }
+                },
+                "amount": {
+                  "type": "integer",
+                  "description": "The amount of the icon."
+                },
+                "shiny": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ],
+                  "description": "If the icon is shiny."
+                }
+              }
+            },
+            "actions": {
+              "type": "object",
+              "description": "The actions that the icon will trigger.",
+              "patternProperties": {
+                "^(all|left|right|shift_left|shift_right|offhand|number_key|number_key_1|number_key_2|number_key_3|number_key_4|number_key_5|number_key_6|number_key_7|number_key_8|number_key_9|middle|drop|control_drop|abroad_left_empty|abroad_right_empty|abroad_left_item|abroad_right_item|left_mouse_drag_add|right_mouse_drag_add|middle_mouse_drag_add|double_click)$": {
+                  "$ref": "#/definitions/action"
+                }
+              }
+            }
+          }
+        }
+      }
     }
+  },
+  "required": ["Layout", "Icons"],
+  "definitions": {
+    "action": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/single-action"
+        },
+        {
+          "$ref": "#/definitions/conditioned-action"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/action"
+          }
+        }
+      ]
+    },
+    "string-action": {
+      "type": "string",
+      "oneOf": [
+        {
+          "pattern": "^((tell|chat|sound|title|actionbar|json|command|op|console|server|open|force-open|page|set-title|set-arguments|update|set-meta|del-meta|take-item|give-item|give-money|take-money|set-money|delay|js|ke):)?.+$"
+        },
+        {
+          "pattern": "^(close|force-close|reset|return)$"
+        },
+        {
+          "pattern": "^refresh(:.+)?$"
+        }
+      ]
+    },
+    "catcher": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["CHAT", "SIGN", "ANVIL", "BOOK"]
+            },
+            "start": {
+              "$ref": "#/definitions/action"
+            },
+            "cancel": {
+              "$ref": "#/definitions/action"
+            },
+            "end": {
+              "$ref": "#/definitions/action"
+            }
+          }
+        }
+      }
+    },
+    "single-action": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/string-action"
+        },
+        {
+          "$ref": "#/definitions/catcher"
+        }
+      ]
+    },
+    "conditioned-action": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "$ref": "#/definitions/string-action"
+        },
+        "actions": {
+          "$ref": "#/definitions/action"
+        },
+        "deny": {
+          "$ref": "#/definitions/action"
+        }
+      }
+    },
+    "js-reference": {
+      "type": "string",
+      "pattern": "^\\$.*$|^\\${.*}$"
+    }
+  }
 }
