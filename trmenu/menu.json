@@ -245,12 +245,12 @@
                                 "material": {
                                     "oneOf": [
                                         {
-                                            "type": "string"
+                                            "$ref": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/material.json"
                                         },
                                         {
                                             "type": "array",
                                             "items": {
-                                                "type": "string"
+                                                "$ref": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/trmenu/material.json"
                                             }
                                         }
                                     ],
