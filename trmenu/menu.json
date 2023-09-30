@@ -358,20 +358,6 @@
         }
       ]
     },
-    "string-action": {
-      "type": "string",
-      "oneOf": [
-        {
-          "pattern": "^((tell|chat|sound|title|actionbar|json|command|op|console|server|open|force-open|page|set-title|set-arguments|update|set-meta|del-meta|take-item|give-item|give-money|take-money|set-money|delay|js|ke):)?.+$"
-        },
-        {
-          "pattern": "^(close|force-close|reset|return)$"
-        },
-        {
-          "pattern": "^refresh(:.+)?$"
-        }
-      ]
-    },
     "catcher": {
       "type": "object",
       "patternProperties": {
@@ -398,7 +384,7 @@
     "single-action": {
       "oneOf": [
         {
-          "$ref": "#/definitions/string-action"
+          "type": "string"
         },
         {
           "$ref": "#/definitions/catcher"
@@ -409,7 +395,7 @@
       "type": "object",
       "properties": {
         "condition": {
-          "$ref": "#/definitions/string-action"
+          "type": "string"
         },
         "actions": {
           "$ref": "#/definitions/action"
