@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <xs:schema 
-  targetNamespace="https://lechocolatchaud.github.io/"
+  targetNamespace="https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/ftc-hardware-config/"
   elementFormDefault="qualified"
-  xmlns="https://lechocolatchaud.github.io/"
+  xmlns="https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/ftc-hardware-config/"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
   <xs:simpleType name="ChassisType">
