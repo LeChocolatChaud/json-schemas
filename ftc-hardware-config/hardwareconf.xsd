@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="ChassisType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OMNI">
+        <xs:annotation>
+          <xs:documentation>Omni-directional chassis design.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TANK"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ZeroPowerBehaviour">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BRAKE"/>
+      <xs:enumeration value="FLOAT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Direction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FORWARD"/>
+      <xs:enumeration value="REVERSE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Key">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="a"/>
+      <xs:enumeration value="b"/>
+      <xs:enumeration value="back"/>
+      <xs:enumeration value="circle"/>
+      <xs:enumeration value="cross"/>
+      <xs:enumeration value="dpad_down"/>
+      <xs:enumeration value="dpad_left"/>
+      <xs:enumeration value="dpad_right"/>
+      <xs:enumeration value="dpad_up"/>
+      <xs:enumeration value="guide"/>
+      <xs:enumeration value="left_bumper"/>
+      <xs:enumeration value="left_stick_button"/>
+      <xs:enumeration value="options"/>
+      <xs:enumeration value="ps"/>
+      <xs:enumeration value="right_bumper"/>
+      <xs:enumeration value="right_stickk_button"/>
+      <xs:enumeration value="share"/>
+      <xs:enumeration value="square"/>
+      <xs:enumeration value="start"/>
+      <xs:enumeration value="touchpad"/>
+      <xs:enumeration value="touchpad_finger_1"/>
+      <xs:enumeration value="touchpad_finger_2"/>
+      <xs:enumeration value="triangle"/>
+      <xs:enumeration value="x"/>
+      <xs:enumeration value="y"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="KeyBind">
+    <xs:list itemType="Key"/>
+  </xs:simpleType>
+  <xs:simpleType name="Speed">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Motor">
+    <xs:all>
+      <xs:element name="id" minOccurs="1" type="xs:string"/>
+      <xs:element name="zeroPowerBehaviour" minOccurs="0" type="ZeroPowerBehaviour"/>
+      <xs:element name="direction" minOccurs="0" type="Direction"/>
+      <xs:element name="keyBind" minOccurs="0" type="KeyBind"/>
+      <xs:element name="speed" minOccurs="0" type="Speed"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:group name="OmniMotors">
+    <xs:sequence>
+      <xs:element name="leftFront" type="Motor" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="leftBack" type="Motor" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="rightFront" type="Motor" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="rightBack" type="Motor" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="TankMotors">
+    <xs:sequence>
+      <xs:element name="left" type="Motor" minOccurs="1"/>
+      <xs:element name="right" type="Motor" minOccurs="1"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:simpleType name="AngleValue">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="-1"/>
+      <xs:maxInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ServoAngleRestrictions">
+    <xs:all>
+      <xs:element name="min" type="AngleValue" minOccurs="1"/>
+      <xs:element name="max" type="AngleValue" minOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="Servo">
+    <xs:all>
+      <xs:element name="id" type="xs:string" minOccurs="1"/>
+      <xs:element name="keyBind" type="KeyBind" minOccurs="0"/>
+      <xs:element name="angleRestrictions" type="ServoAngleRestrictions" minOccurs="0"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:simpleType name="Orientation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UP"/>
+      <xs:enumeration value="DOWN"/>
+      <xs:enumeration value="LEFT"/>
+      <xs:enumeration value="RIGHT"/>
+      <xs:enumeration value="FORWARD"/>
+      <xs:enumeration value="BACKWARD"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="HubOrientation">
+    <xs:all>
+      <xs:element name="logo" type="Orientation" minOccurs="1"/>
+      <xs:element name="usb" type="Orientation" minOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="hardware">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="drive" minOccurs="1">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="chassisType" type="ChassisType" minOccurs="1"/>
+              <xs:element name="motors">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:group ref="OmniMotors"/>
+                    <xs:group ref="TankMotors"/>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="gyro">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="hubOrientation" type="HubOrientation" minOccurs="1"/>
+              <xs:element name="imuName" type="xs:string" minOccurs="0"/>
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="motors" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="motor" type="Motor" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="servos" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="servo" type="Servo" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
