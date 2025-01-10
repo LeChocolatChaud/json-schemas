@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/zmenu/placeholder.json",
+  "title": "ZMenu placeholder",
+  "type": "object",
+  "properties": {
+    "placeholder": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "BOOLEAN",
+        "EQUALS_STRING",
+        "EQUALSIGNORECASE_STRING",
+        "CONTAINS_STRING",
+        "DIFFERENT_STRING",
+        "SUPERIOR",
+        "LOWER",
+        "SUPERIOR_OR_EQUAL",
+        "LOWER_OR_EQUAL",
+        "EQUAL_TO"
+      ]
+    }
+  }
+}

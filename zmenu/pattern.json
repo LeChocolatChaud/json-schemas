@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/zmenu/pattern.json",
+  "title": "ZMenu pattern",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "type": {
+          "const": "INVENTORY"
+        },
+        "size": {
+          "type": "number"
+        },
+        "enable-multi-page": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "object",
+          "additionalItems": {
+            "$ref": "itemstack.json"
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "BUTTON"
+        },
+        "button": {
+          "$ref": "button.json"
+        }
+      }
+    }
+  ]
+}

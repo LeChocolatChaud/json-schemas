@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/zmenu/requirement.json",
+  "title": "ZMenu requirement",
+  "type": "object",
+  "properties": {
+    "minimum-requirement": {
+      "type": "number"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "type": {
+                    "const": "permission"
+                  },
+                  "permission": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "allOf": [
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "placeholder"
+                      },
+                      "target": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "placeholder.json"
+                  }
+                ]
+              },
+              {
+                "properties": {
+                  "type": {
+                    "const": "regex"
+                  },
+                  "regex": {
+                    "type": "string",
+                    "format": "regex"
+                  },
+                  "input": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "type": {
+                    "const": "item"
+                  },
+                  "material": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "model-id": {
+                    "type": "number"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "type": {
+                    "const": "job"
+                  },
+                  "job": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "type": {
+                    "const": "luckperm"
+                  },
+                  "group": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "type": {
+                    "const": "playername"
+                  },
+                  "player-name": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "type": {
+                    "const": "money"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "economy": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "properties": {
+              "deny": {
+                "type": "array",
+                "items": {
+                  "$ref": "action.json"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "deny": {
+      "type": "array",
+      "items": {
+        "$ref": "action.json"
+      }
+    },
+    "success": {
+      "type": "array",
+      "items": {
+        "$ref": "action.json"
+      }
+    }
+  }
+}

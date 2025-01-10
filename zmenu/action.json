@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/zmenu/action.json",
+  "title": "ZMenu action",
+  "type": "object",
+  "oneOf": [
+    {
+      "properties": {
+        "type": {
+          "const": "player_command"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command-in-chat": {
+          "type": "boolean"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "console_command"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "message"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "minimessage": {
+          "type": "boolean"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "chat"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "close"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "inventory"
+        },
+        "inventory": {
+          "type": "string"
+        },
+        "plugin": {
+          "type": "string"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "connect"
+        },
+        "server": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "sound"
+            }
+          }
+        },
+        {
+          "$ref": "xsound.json"
+        }
+      ]
+    },
+    {
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "broadcast_sound"
+            }
+          }
+        },
+        {
+          "$ref": "xsound.json"
+        }
+      ]
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "data"
+        },
+        "action": {
+          "const": "SET"
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "seconds": {
+          "type": "integer"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "refresh"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "back"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "shopkeeper"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "book"
+        },
+        "author": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "lines": {
+          "type": "object",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "actionbar"
+        },
+        "message": {
+          "type": "string"
+        },
+        "minimessage": {
+          "type": "boolean"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "withdraw"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "economy": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "deposit"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "economy": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "title"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "start": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        }
+      }
+    }
+  ]
+}

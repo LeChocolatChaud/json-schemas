@@ -1,0 +1,261 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/LeChocolatChaud/json-schemas/main/zmenu/button.json",
+  "title": "ZMenu Button",
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "number"
+    },
+    "is-permanent": {
+      "type": "boolean"
+    },
+    "item": {
+      "$ref": "itemstack.json"
+    },
+    "sound": {
+      "$ref": "xsound.json"
+    },
+    "pitch": {
+      "type": "number"
+    },
+    "volume": {
+      "type": "number"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "close-inventory": {
+      "type": "boolean"
+    },
+    "refresh-on-click": {
+      "type": "boolean"
+    },
+    "player-head": {
+      "type": "boolean"
+    },
+    "else": {
+      "$ref": "#"
+    },
+    "update": {
+      "type": "boolean"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "consoleCommands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "consoleRightCommands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "consoleLeftCommands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "consolePermissionCommands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "consolePermission": {
+      "$ref": "#/definitions/permission"
+    },
+    "update-on-click": {
+      "type": "boolean"
+    },
+    "view-requirement": {
+      "$ref": "requirement.json"
+    },
+    "click-requirement": {
+      "type": "object",
+      "additionalProperties": {
+        "allOf": [
+          {
+            "properties": {
+              "clicks": {
+                "type": "string",
+                "enum": [
+                  "ALL",
+                  "ANY",
+                  "LEFT",
+                  "SHIFT_LEFT",
+                  "RIGHT",
+                  "SHIFT_RIGHT"
+                ]
+              }
+            }
+          },
+          {
+            "$ref": "requirement.json"
+          }
+        ]
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "action.json"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "anyOf": [
+        {
+          "properties": {
+            "slot": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "properties": {
+            "slots": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "$ref": "placeholder.json"
+        },
+        {
+          "properties": {
+            "placeholders": {
+              "type": "array",
+              "items": {
+                "$ref": "placeholder.json"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "properties": {
+            "permission": {
+              "$ref": "#/definitions/permission"
+            }
+          }
+        },
+        {
+          "properties": {
+            "or-permission": {
+              "$ref": "#/definitions/permission"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "NONE"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "INVENTORY"
+            },
+            "inventory": {
+              "type": "string"
+            },
+            "plugin": {
+              "type": "string"
+            },
+            "to-page": {
+              "type": "number"
+            },
+            "arguments": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "BACK"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "HOME"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "NEXT"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "PREVIOUS"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "MAINMENU"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "JUMP"
+            },
+            "to-page": {
+              "type": "number"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "permission": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
