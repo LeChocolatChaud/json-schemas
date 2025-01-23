@@ -49,31 +49,31 @@
         "type": "string"
       }
     },
-    "consoleCommands": {
+    "console-commands": {
       "type": "array",
       "items": {
         "type": "string"
       }
     },
-    "consoleRightCommands": {
+    "console-right-commands": {
       "type": "array",
       "items": {
         "type": "string"
       }
     },
-    "consoleLeftCommands": {
+    "console-left-commands": {
       "type": "array",
       "items": {
         "type": "string"
       }
     },
-    "consolePermissionCommands": {
+    "console-permission-commands": {
       "type": "array",
       "items": {
         "type": "string"
       }
     },
-    "consolePermission": {
+    "console-permission": {
       "$ref": "#/definitions/permission"
     },
     "update-on-click": {
